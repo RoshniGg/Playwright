@@ -33,14 +33,14 @@ steps:
   - task: PublishTestResults@2
     inputs:
       testResultsFormat: 'Junit'
-      testRunTitle: 'API test log'
+      testRunTitle: 'test results'
       testResultsFiles: '**/results/report.xml'
     condition: succeededOrFailed()
 
 
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: '$(Pipeline.Workspace)/s/results/report.html'
+      targetPath: '$(Pipeline.Workspace)/s/results'
       artifact: 'Test Reports'
       publishLocation: 'pipeline'
     condition: succeededOrFailed()
