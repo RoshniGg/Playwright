@@ -1,0 +1,7 @@
+{
+  "user_details": [
+  {"username": "standard_user", "password": "secret_sauce"},
+  {"username": "problem_user", "password": "secret_sauce"},
+  {"username": "error_user", "password": "secret_sauce"}
+  ]
+}

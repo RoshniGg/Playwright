@@ -1,0 +1,29 @@
+{
+  "base_url": "https://api.practicesoftwaretesting.com",
+  "cart": {
+    "create": {
+      "method": "POST",
+      "endpoint": "/carts",
+      "expected_response_keys": ["id"],
+      "status": "201"
+    },
+    "get": {
+      "method": "GET",
+      "endpoint_template": "/carts/{cart_id}",
+      "status": "200"
+    }
+  },
+  "add_item": {
+    "method": "POST",
+    "endpoint_template": "/carts/{cart_id}",
+    "expected_result": "item added or updated",
+    "status": "200"
+  },
+  "product": {
+     "get": {
+      "method": "GET",
+      "endpoint": "/products",
+      "status": "200"
+    }
+    }
+}

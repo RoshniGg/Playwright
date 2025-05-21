@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="3" time="38.969" timestamp="2025-05-06T15:09:54.099398+05:30" hostname="REFL-RLP436"><testcase classname="test_day6_day7_final" name="test_checkout[user0]" time="10.441" /><testcase classname="test_day6_day7_final" name="test_checkout[user1]" time="14.170"><failure message="AssertionError: Locator expected to contain text 'Checkout: Complete!'&#10;Actual value: Checkout: Your Information &#10;Call log:&#10;  - LocatorAssertions.to_contain_text with timeout 5000ms&#10;  -   - waiting for locator(&quot;.title&quot;)&#10;  -     9 × locator resolved to &lt;span class=&quot;title&quot; data-test=&quot;title&quot;&gt;Checkout: Your Information&lt;/span&gt;&#10;  -       - unexpected value &quot;Checkout: Your Information&quot;">browse_open_url = &lt;Page url='https://www.saucedemo.com/checkout-step-one.html'&gt;, user = {'password': 'secret_sauce', 'username': 'problem_user'}
+
+    @pytest.mark.parametrize("user",user_credentials)
+    def test_checkout(browse_open_url,user):
+    
+        pm = PageManager(browse_open_url)
+        #login page
+        pm.login_page.login(user["username"],user["password"])
+    
+        # inventory page: adding product to cart
+        product_details= read_csv("data/ProductDetails.csv")
+        print(product_details)
+        for product in product_details:
+            print(product["ProductName"])
+            pm.inventory_page.product_addition(product["ProductName"])
+        time.sleep(2)
+    
+        # click on the shopping cart
+        pm.inventory_page.shopping_cart_click()
+    
+        # cart page
+        pm.cart.shopping_checkout_click()
+    
+        # checkoutStep1 page: filling checkout details
+        data= read_excel("data/userDetailsExcel.xlsx")
+        print(data)
+        for items in data:
+            pm.checkout_one.fill_checkout_step_one(items["FirstName"],items["LastName"],str(items["postal code"]))
+        time.sleep(2)
+        pm.checkout_one.click_continue()
+    
+        # checkout step 2
+        pm.checkout_two.click_finish()
+    
+        #checkoutComplete
+&gt;       expect(pm.checkout_complete.get_title()).to_contain_text("Checkout: Complete!")
+E       AssertionError: Locator expected to contain text 'Checkout: Complete!'
+E       Actual value: Checkout: Your Information 
+E       Call log:
+E         - LocatorAssertions.to_contain_text with timeout 5000ms
+E         -   - waiting for locator(".title")
+E         -     9 × locator resolved to &lt;span class="title" data-test="title"&gt;Checkout: Your Information&lt;/span&gt;
+E         -       - unexpected value "Checkout: Your Information"
+
+test_day6_day7_final.py:46: AssertionError</failure></testcase><testcase classname="test_day6_day7_final" name="test_checkout[user2]" time="13.371"><failure message="AssertionError: Locator expected to contain text 'Checkout: Complete!'&#10;Actual value: Checkout: Overview &#10;Call log:&#10;  - LocatorAssertions.to_contain_text with timeout 5000ms&#10;  -   - waiting for locator(&quot;.title&quot;)&#10;  -     9 × locator resolved to &lt;span class=&quot;title&quot; data-test=&quot;title&quot;&gt;Checkout: Overview&lt;/span&gt;&#10;  -       - unexpected value &quot;Checkout: Overview&quot;">browse_open_url = &lt;Page url='https://www.saucedemo.com/checkout-step-two.html'&gt;, user = {'password': 'secret_sauce', 'username': 'error_user'}
+
+    @pytest.mark.parametrize("user",user_credentials)
+    def test_checkout(browse_open_url,user):
+    
+        pm = PageManager(browse_open_url)
+        #login page
+        pm.login_page.login(user["username"],user["password"])
+    
+        # inventory page: adding product to cart
+        product_details= read_csv("data/ProductDetails.csv")
+        print(product_details)
+        for product in product_details:
+            print(product["ProductName"])
+            pm.inventory_page.product_addition(product["ProductName"])
+        time.sleep(2)
+    
+        # click on the shopping cart
+        pm.inventory_page.shopping_cart_click()
+    
+        # cart page
+        pm.cart.shopping_checkout_click()
+    
+        # checkoutStep1 page: filling checkout details
+        data= read_excel("data/userDetailsExcel.xlsx")
+        print(data)
+        for items in data:
+            pm.checkout_one.fill_checkout_step_one(items["FirstName"],items["LastName"],str(items["postal code"]))
+        time.sleep(2)
+        pm.checkout_one.click_continue()
+    
+        # checkout step 2
+        pm.checkout_two.click_finish()
+    
+        #checkoutComplete
+&gt;       expect(pm.checkout_complete.get_title()).to_contain_text("Checkout: Complete!")
+E       AssertionError: Locator expected to contain text 'Checkout: Complete!'
+E       Actual value: Checkout: Overview 
+E       Call log:
+E         - LocatorAssertions.to_contain_text with timeout 5000ms
+E         -   - waiting for locator(".title")
+E         -     9 × locator resolved to &lt;span class="title" data-test="title"&gt;Checkout: Overview&lt;/span&gt;
+E         -       - unexpected value "Checkout: Overview"
+
+test_day6_day7_final.py:46: AssertionError</failure></testcase></testsuite></testsuites>
