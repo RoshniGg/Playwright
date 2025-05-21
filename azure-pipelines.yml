@@ -30,8 +30,17 @@ steps:
       pytest test_day6_day7_final.py --html=results/report.html --junit-xml=results/report.xml
     displayName: 'Run Playwright Tests'
 
-  # # Optional Step 4: Publish Allure Report
-  # - task: PublishTestResults@2
-  #   inputs:
-  #     testResultsFiles: '**/allure-results/*.xml'
-  #     testRunTitle: 'Playwright Test Results'
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'Junit'
+      testRunTitle: 'API test log'
+      testResultsFiles: '**/results/report.xml'
+    condition: succeededOrFailed()
+
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(Pipeline.Workspace)/s/results/report.html'
+      artifact: 'Test Reports'
+      publishLocation: 'pipeline'
+    condition: succeededOrFailed()

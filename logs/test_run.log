@@ -222,3 +222,115 @@ E         -     9 × locator resolved to <span class="title" data-test="title">Ch
 E         -       - unexpected value "Checkout: Overview"
 
 test_day6_day7_final.py:47: AssertionError
+2025-05-21 15:11:53,578 - INFO - Starting Playwright test
+2025-05-21 15:11:55,843 - INFO - User 'standard_user' logged in successfully.
+2025-05-21 15:11:55,845 - INFO - Adding product: Sauce Labs Backpack
+2025-05-21 15:11:55,892 - INFO - Adding product: Sauce Labs Bike Light
+2025-05-21 15:11:55,939 - INFO - Adding product: Sauce Labs Bolt T-Shirt
+2025-05-21 15:11:55,991 - INFO - Adding product: Sauce Labs Fleece Jacket
+2025-05-21 15:12:01,284 - INFO - Checkout success full
+2025-05-21 15:12:01,297 - INFO - Test: test_day6_day7_final.py::test_checkout | Result: passed | Duration: 7.71s
+2025-05-21 15:12:02,984 - INFO - Starting Playwright test
+2025-05-21 15:12:05,108 - INFO - User 'problem_user' logged in successfully.
+2025-05-21 15:12:05,110 - INFO - Adding product: Sauce Labs Backpack
+2025-05-21 15:12:05,155 - INFO - Adding product: Sauce Labs Bike Light
+2025-05-21 15:12:05,205 - INFO - Adding product: Sauce Labs Bolt T-Shirt
+2025-05-21 15:12:05,256 - INFO - Adding product: Sauce Labs Fleece Jacket
+2025-05-21 15:12:14,745 - INFO - Test: test_day6_day7_final.py::test_checkout | Result: failed | Duration: 11.58s
+2025-05-21 15:12:14,746 - ERROR - Test failed: test_day6_day7_final.py::test_checkout | Error: browse_open_url = <Page url='https://www.saucedemo.com/checkout-step-one.html'>, user = {'password': 'secret_sauce', 'username': 'problem_user'}
+
+    @pytest.mark.parametrize("user",user_credentials)
+    def test_checkout(browse_open_url,user):
+        logger.info( "Starting Playwright test")
+        pm = PageManager(browse_open_url)
+        #login page
+        pm.login_page.login(user["username"],user["password"])
+        logger.info(f"User '{user['username']}' logged in successfully.")
+    
+        # inventory page: adding product to cart
+        product_details= read_csv("data/ProductDetails.csv")
+        print(product_details)
+        for product in product_details:
+            logger.info(f"Adding product: {product['ProductName']}")
+            pm.inventory_page.product_addition(product["ProductName"])
+        time.sleep(2)
+    
+        # click on the shopping cart
+        pm.inventory_page.shopping_cart_click()
+    
+        # cart page
+        pm.cart.shopping_checkout_click()
+    
+        # checkoutStep1 page: filling checkout details
+        data= read_excel("data/userDetailsExcel.xlsx")
+        for items in data:
+            pm.checkout_one.fill_checkout_step_one(items["FirstName"],items["LastName"],str(items["postal code"]))
+        time.sleep(2)
+        pm.checkout_one.click_continue()
+    
+        # checkout step 2
+        pm.checkout_two.click_finish()
+    
+        #checkoutComplete
+>       expect(pm.checkout_complete.get_title()).to_contain_text("Checkout: Complete!")
+E       AssertionError: Locator expected to contain text 'Checkout: Complete!'
+E       Actual value: Checkout: Your Information 
+E       Call log:
+E         - LocatorAssertions.to_contain_text with timeout 5000ms
+E         -   - waiting for locator(".title")
+E         -     9 × locator resolved to <span class="title" data-test="title">Checkout: Your Information</span>
+E         -       - unexpected value "Checkout: Your Information"
+
+test_day6_day7_final.py:47: AssertionError
+2025-05-21 15:12:16,402 - INFO - Starting Playwright test
+2025-05-21 15:12:18,543 - INFO - User 'error_user' logged in successfully.
+2025-05-21 15:12:18,544 - INFO - Adding product: Sauce Labs Backpack
+2025-05-21 15:12:18,590 - INFO - Adding product: Sauce Labs Bike Light
+2025-05-21 15:12:18,640 - INFO - Adding product: Sauce Labs Bolt T-Shirt
+2025-05-21 15:12:18,702 - INFO - Adding product: Sauce Labs Fleece Jacket
+2025-05-21 15:12:28,086 - INFO - Test: test_day6_day7_final.py::test_checkout | Result: failed | Duration: 11.62s
+2025-05-21 15:12:28,086 - ERROR - Test failed: test_day6_day7_final.py::test_checkout | Error: browse_open_url = <Page url='https://www.saucedemo.com/checkout-step-two.html'>, user = {'password': 'secret_sauce', 'username': 'error_user'}
+
+    @pytest.mark.parametrize("user",user_credentials)
+    def test_checkout(browse_open_url,user):
+        logger.info( "Starting Playwright test")
+        pm = PageManager(browse_open_url)
+        #login page
+        pm.login_page.login(user["username"],user["password"])
+        logger.info(f"User '{user['username']}' logged in successfully.")
+    
+        # inventory page: adding product to cart
+        product_details= read_csv("data/ProductDetails.csv")
+        print(product_details)
+        for product in product_details:
+            logger.info(f"Adding product: {product['ProductName']}")
+            pm.inventory_page.product_addition(product["ProductName"])
+        time.sleep(2)
+    
+        # click on the shopping cart
+        pm.inventory_page.shopping_cart_click()
+    
+        # cart page
+        pm.cart.shopping_checkout_click()
+    
+        # checkoutStep1 page: filling checkout details
+        data= read_excel("data/userDetailsExcel.xlsx")
+        for items in data:
+            pm.checkout_one.fill_checkout_step_one(items["FirstName"],items["LastName"],str(items["postal code"]))
+        time.sleep(2)
+        pm.checkout_one.click_continue()
+    
+        # checkout step 2
+        pm.checkout_two.click_finish()
+    
+        #checkoutComplete
+>       expect(pm.checkout_complete.get_title()).to_contain_text("Checkout: Complete!")
+E       AssertionError: Locator expected to contain text 'Checkout: Complete!'
+E       Actual value: Checkout: Overview 
+E       Call log:
+E         - LocatorAssertions.to_contain_text with timeout 5000ms
+E         -   - waiting for locator(".title")
+E         -     9 × locator resolved to <span class="title" data-test="title">Checkout: Overview</span>
+E         -       - unexpected value "Checkout: Overview"
+
+test_day6_day7_final.py:47: AssertionError
