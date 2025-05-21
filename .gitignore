@@ -1,0 +1,15 @@
+# Ignore PyCharm specific files
+.idea/
+*.iml
+
+
+# Ignore pytest_cache folder
+.pytest_cache/
+
+# Other typical exclusions
+*.pyc
+__pycache__/
+.DS_Store
+
+# Ignore logs
+logs
